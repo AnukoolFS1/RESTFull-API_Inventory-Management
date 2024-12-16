@@ -10,7 +10,7 @@ const addProduct = async (req, res) => {
     })
 
     await product.save();
-    res.status(201).send("Product has been created successfully")
+    res.status(201).json({msg:"Product has created successfully"})
 }
 
 

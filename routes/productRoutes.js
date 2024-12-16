@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { addProduct } = require('../controller/product')
+const { addProduct } = require('../controller/product.control')
 
 router.get('/')
 
