@@ -1,12 +1,12 @@
-const router = require('express').Router()
+const prdctRouter = require('express').Router()
 const { addProduct } = require('../controller/product.control')
 
-router.get('/')
+prdctRouter.get('/')
 
-router.post('/', addProduct)
+prdctRouter.post('/', addProduct)
 
-router.put()
+prdctRouter.put()
 
-router.delete()
+prdctRouter.delete()
 
-module.exports = router
+module.exports = prdctRouter
