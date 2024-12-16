@@ -1,16 +1,13 @@
 require('dotenv').config()
 const express = require('express');
 const app = express();
-const Connect = require('./db/Db')
+const Connect = require('./db/Db');
+const { routes } = require('./routes.js/route');
 
 PORT = process.env.PORT || 5000
 
 Connect()
 
-
-app.use(('/'), (req, res) => {
-    res.end("This is server")
-})
-
+app.use(('/'), routes)
 
 app.listen(PORT, () => console.log(`server is running on PORT${PORT}`))
