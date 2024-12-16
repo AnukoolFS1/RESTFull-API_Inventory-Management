@@ -2,7 +2,7 @@ require('dotenv').config()
 const express = require('express');
 const app = express();
 const Connect = require('./db/Db');
-const router = require('./routes/route.js');
+const router = require('./routes/productRoutes.js');
 
 PORT = process.env.PORT || 5000
 
