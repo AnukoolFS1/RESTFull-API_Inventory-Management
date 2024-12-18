@@ -8,8 +8,8 @@ const productSchema = new mongoose.Schema(
         quantity: { type: Number, default: 0 },
         categoryId: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
         supplierId: { type: mongoose.Schema.Types.ObjectId, ref: 'Supplier' }
-    },
-    { timestamps: true }
+    }, 
+    { timestamps: true}
 );
 
 
