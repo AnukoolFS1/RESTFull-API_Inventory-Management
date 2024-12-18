@@ -5,8 +5,8 @@ prdctRouter.post('/', addProduct)
 
 prdctRouter.get('/')
 
-prdctRouter.put()
+prdctRouter.put('/')
 
-prdctRouter.delete()
+prdctRouter.delete('/')
 
 module.exports = prdctRouter
