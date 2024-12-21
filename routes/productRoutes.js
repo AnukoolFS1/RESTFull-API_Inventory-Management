@@ -1,9 +1,9 @@
 const prdctRouter = require('express').Router()
-const { addProduct } = require('../controller/product.control')
+const { addProduct, getProducts } = require('../controller/product.control')
 
 prdctRouter.post('/', addProduct)
 
-prdctRouter.get('/')
+prdctRouter.get('/', getProducts)
 
 prdctRouter.put('/')
 

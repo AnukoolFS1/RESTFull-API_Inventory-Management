@@ -14,7 +14,18 @@ const addProduct = async (req, res) => {
     res.status(201).json({ msg: "Product has created successfully" })
 }
 
+const getProducts = async (req, res) => {
+    try{
+        const products = await Productmodel.find();
+        return res.status(200).json({products})
+    }catch(err) {
+        console.log(err);
+        return res.status(500).json({msg:"Internal server error"})
+    }
+}
+
 
 module.exports = {
-    addProduct
+    addProduct,
+    getProducts
 }
