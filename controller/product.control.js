@@ -24,8 +24,39 @@ const getProducts = async (req, res) => {
     }
 }
 
+const getProduct = async (req, res) => {
+    const {name} = req.params
+    try{
+        const products = await Productmodel.findOne({name});
+        return res.status(200).json({products})
+    }catch(err) {
+        console.log(err);
+        return res.status(500).json({msg:"Internal server error"})
+    }
+}
+
+const editProducts = async (req, res) => {
+    const {name} = req.params;
+    const edits = req.body
+    try{
+        const editedProduct = await Productmodel.findOneAndUpdate({name}, {$set:edits}, {returnDocument: "after"}) 
+        res.status(200).json({msg:"product has edited successfully"},editedProduct)
+    }catch(err) {
+        console.log(err);
+        return res.status(500).json({msg:"Internal server error"})
+    }
+}
+
+const deleteProduct = async(req, res) => {
+    const {name} = req.params;
+    await Productmodel.deleteOne({name});
+    res.status(200).json({msg:"product has deleted"})
+}
 
 module.exports = {
     addProduct,
-    getProducts
+    getProducts,
+    getProduct,
+    deleteProduct,
+    editProducts
 }
