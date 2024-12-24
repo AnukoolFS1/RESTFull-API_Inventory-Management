@@ -1,12 +1,14 @@
 const supplierRouter = require('express').Router();
-const { addSupplier } = require("../controller/supplier.control")
+const { addSupplier, getSuppliers, getSupplier, deleteSupplier, editSupplier } = require("../controller/supplier.control")
 
 supplierRouter.post('/', addSupplier)
 
-supplierRouter.get('/')
+supplierRouter.get('/', getSuppliers)
 
-supplierRouter.put('/')
+supplierRouter.get('/:name', getSupplier)
 
-supplierRouter.delete('/');
+supplierRouter.put('/:name', editSupplier)
+
+supplierRouter.delete('/:name', deleteSupplier);
 
 module.exports = supplierRouter
