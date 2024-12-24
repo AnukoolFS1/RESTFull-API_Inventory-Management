@@ -24,7 +24,7 @@ const getSuppliers = async (req, res) => {
 const getSupplier = async (req, res) => {
     try {
         const { name } = req.params;
-        const supplier = await SupplierModel.findOne(name);
+        const supplier = await SupplierModel.findOne({ companyName: name });
         res.status(200).json(supplier)
     } catch (err) {
         console.log(err)
@@ -33,25 +33,29 @@ const getSupplier = async (req, res) => {
 }
 
 const editSupplier = async (req, res) => {
-    try{
+    try {
         const supplier = req.params.name;
         const changes = req.body;
-        const changed = await SupplierModel.findOneAndUpdate({ name: supplier }, changes)
+        const changed = await SupplierModel.findOneAndUpdate(
+            { companyName: supplier }, 
+            { $set: changes }, 
+            {returnDocument: "after"}
+        )
         res.status(200).json(changed)
-    }catch(err){
+    } catch (err) {
         console.log(err)
-        res.status(500).json({msg:"internal server error"})
+        res.status(500).json({ msg: "internal server error" })
     }
 }
 
 const deleteSupplier = async (req, res) => {
-    try{
-        const {name} = req.params;
-        const deleteSupplier = await SupplierModel.deleteOne(name)
-        res.status(200).json(deleteSupplier)
-    }catch(err){
+    try {
+        const { name } = req.params;
+        const deleteSupplier = await SupplierModel.deleteOne({companyName:name})
+        res.status(200).json({msg:"supplier deleted"})
+    } catch (err) {
         console.log(err)
-        res.status(500).json({msg:"internal server error"})
+        res.status(500).json({ msg: "internal server error" })
     }
 }
 
