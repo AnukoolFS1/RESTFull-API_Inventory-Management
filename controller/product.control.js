@@ -22,7 +22,7 @@ const addProduct = async (req, res) => {
 
 const getProducts = async (req, res) => {
     try{
-        const products = await Productmodel.find();
+        const products = await Productmodel.find().populate("categoryId").populate("supplierId");
         return res.status(200).json({products})
     }catch(err) {
         console.log(err);
@@ -40,6 +40,35 @@ const getProduct = async (req, res) => {
         return res.status(500).json({msg:"Internal server error"})
     }
 }
+
+// const getProductByCategory = async (req, res) => {
+//     const {name} = req.params
+//     try{
+//         const categoryId = await Categorymodel.findOne({ name }).select("_id")
+//         const products = await Productmodel.find({}).populate(categoryId._id.toString());
+//         return res.status(200).json({products})
+//     }catch(err) {
+//         console.log(err);
+//         return res.status(500).json({msg:"Internal server error"})
+//     }
+// }
+const getProductByCategory = async (req, res) => {
+    const {name} = req.params;
+    try {
+        const categoryId = await Categorymodel.findOne({ name }).select("_id");
+        if (!categoryId) {
+            return res.status(400).json({ msg: "Category not found" });
+        }
+        // Use the field name that references Category, in this case 'categoryId', for population
+        const products = await Productmodel.find({ categoryId: categoryId._id })
+        .populate([{path:'categoryId', select: "name description"}, {path:"supplierId", select: "companyName phone contactEmail"}]);
+        return res.status(200).json({ products });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ msg: "Internal server error" });
+    }
+};
+
 
 const editProducts = async (req, res) => {
     const {name} = req.params;
@@ -64,7 +93,8 @@ module.exports = {
     getProducts,
     getProduct,
     deleteProduct,
-    editProducts
+    editProducts,
+    getProductByCategory
 }
 
 
