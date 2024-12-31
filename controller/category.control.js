@@ -20,8 +20,9 @@ const getCategory = async (req, res) => {
 const editCategory = async (req, res) => {
     const { name } = req.params;
     const changingData = req.body;
+    const cP = Object.keys(changingData)[0]
     try {
-        const changedCategory = await Categorymodel.findOneAndUpdate({ name }, changingData);
+        const changedCategory = await Categorymodel.findOneAndUpdate({ name }, changingData, { returnDocument: "after" }).lean();
         if (!changedCategory) return res.status(404).json({ msg: "Category was not found in server database" });
         res.status(200).json({ msg: `data has changed with ${JSON.stringify(changingData)}` });
     } catch (err) {
@@ -32,16 +33,15 @@ const editCategory = async (req, res) => {
 
 const deleteCategory = async (req, res) => {
     const { name } = req.params;
-    try{
+    try {
         const deletedCategory = await Categorymodel.findOneAndDelete({ name }).lean();
-        if(!deleteCategory) return res.status(404).json({msg:"Category was not found in the server database"});
-        }
-    catch(err) {
-        console.error(err);
-        return res.status(500).json({msg:"Internal server error"});
+        if (!deleteCategory) return res.status(404).json({ msg: "Category was not found in the server database" });
+        return res.status(200).json({ msg: `Category ${deletedCategory} has been deleted` });
     }
-
-    return res.status(200).json({ msg: `Category ${deletedCategory} has been deleted` });
+    catch (err) {
+        console.error(err);
+        return res.status(500).json({ msg: "Internal server error" });
+    }
 }
 
 module.exports = { addCategory, getCategories, getCategory, editCategory, deleteCategory };

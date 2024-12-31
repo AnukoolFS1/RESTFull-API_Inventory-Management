@@ -1,11 +1,12 @@
 const Productmodel = require('../models/product');
 const Categorymodel = require('../models/Category');
 const Suppliermodel = require('../models/Supplier');
+
 const addProduct = async (req, res) => {
     const { name, price, quantity, category, supplier } = req.body;
     const categoryId = await Categorymodel.findOne({ name: category }).select("_id");
     const supplierId = await Suppliermodel.findOne({ companyName: supplier }).select("_id");
-
+    if(!supplierId && !categoryId) return res.status(400).json({msg:"Supplier or Category are not available right now"})
     const product = new Productmodel({
         name, price, quantity, categoryId: categoryId._id, supplierId: supplierId._id
     })
@@ -27,7 +28,7 @@ const getProducts = async (req, res) => {
 const getProduct = async (req, res) => {
     const {name} = req.params
     try{
-        const products = await Productmodel.findOne({name});
+        const products = await Productmodel.find({name});
         return res.status(200).json({products})
     }catch(err) {
         console.log(err);
@@ -60,3 +61,17 @@ module.exports = {
     deleteProduct,
     editProducts
 }
+
+
+
+
+// async function update (err, products){
+//     if (err) return console.error(err);
+    
+//     const updatedProducts = await Productmodel.find();
+//     updatedProducts.forEach(async product => {
+//       const randomSKU = Math.floor(Math.random() * 1000);  // Unique random SKU generation
+//       await Productmodel.updateOne({ _id: product._id }, { $set: { SKU: randomSKU } });
+//     })
+// }
+// update()

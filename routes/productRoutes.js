@@ -4,7 +4,7 @@ const { addProduct, getProducts, getProduct, editProducts, deleteProduct } = req
 prdctRouter.post('/', addProduct)
 
 prdctRouter.get('/', getProducts)
-prdctRouter.get('/', getProduct)
+prdctRouter.get('/:name', getProduct)
 
 
 prdctRouter.put('/', editProducts)
